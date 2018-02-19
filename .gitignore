@@ -1,0 +1,14 @@
+.classpath
+!/.project
+.project
+.settings
+target
+bin/
+build/
+MANIFEST.MF
+classes/
+*.bin
+.idea/
+.idea
+**/*.log
+.gradle/
