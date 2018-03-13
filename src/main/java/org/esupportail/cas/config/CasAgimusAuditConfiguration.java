@@ -13,28 +13,28 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * This is {@link CasSupportAgimusAuditConfiguration}.
+ * This is {@link CasAgimusAuditConfiguration}.
  *
  * @author Julien Marchal
  * @since 5.2.0
  */
 @Configuration("casAgimusLogsAuditConfiguration")
 @EnableConfigurationProperties(CasConfigurationProperties.class)
-public class CasAgimusServicesAuditConfiguration {
-	private static final Logger LOGGER = LoggerFactory.getLogger(CasAgimusServicesAuditConfiguration.class);
+public class CasAgimusAuditConfiguration {
+	private static final Logger LOGGER = LoggerFactory.getLogger(CasAgimusAuditConfiguration.class);
 
     @Autowired
     private CasConfigurationProperties casProperties;
 
     @Bean
     public AuditTrailManager agimusServicesAuditTrailManager() {
-        LOGGER.debug("CasAgimusServicesAuditConfiguration::agimusServicesAuditTrailManager constructor");
+        LOGGER.debug("CasAgimusAuditConfiguration::agimusServicesAuditTrailManager constructor");
 		return new AgimusServicesAuditTrailManager();
     }
 
     @Bean
     public DelegatingAuditTrailManager auditTrailManager() {
-        LOGGER.debug("CasAgimusServicesAuditConfiguration::auditTrailManager create object agimusServicesAuditTrailManager");
+        LOGGER.debug("CasAgimusAuditConfiguration::auditTrailManager create object agimusServicesAuditTrailManager");
 		return new DefaultDelegatingAuditTrailManager(agimusServicesAuditTrailManager());
     }
 

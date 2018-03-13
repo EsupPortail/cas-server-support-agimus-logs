@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=org.esupportail.cas.config.CasAgimusServicesAuditConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=org.esupportail.cas.config.CasAgimusAuditConfiguration
