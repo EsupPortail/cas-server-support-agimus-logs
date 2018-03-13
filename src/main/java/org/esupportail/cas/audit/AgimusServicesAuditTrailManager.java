@@ -8,8 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apereo.inspektr.audit.AuditActionContext;
 import org.apereo.inspektr.audit.AuditTrailManager;
+import org.esupportail.cas.util.CasAgimusServicesAuditLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -24,6 +27,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 public class AgimusServicesAuditTrailManager implements AuditTrailManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(AgimusServicesAuditTrailManager.class);
 
+    @Autowired
+    @Qualifier("agimusServicesAuditLogger")
+    private CasAgimusServicesAuditLogger agimusServicesAuditLogger;   
     
     public AgimusServicesAuditTrailManager() {
     }
@@ -51,7 +57,7 @@ public class AgimusServicesAuditTrailManager implements AuditTrailManager {
 					outStr+= "[TICKET:"+ ticket + "] ";
 					outStr+= "[SERVICE:"+ service + "] ";
 					outStr+= "[USER-AGENT:" + useragent +"]";
-					LOGGER.info(outStr);
+					agimusServicesAuditLogger.log(outStr);
 				}        		
     		}
     	}

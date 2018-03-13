@@ -5,6 +5,7 @@ import org.apereo.cas.audit.spi.DelegatingAuditTrailManager;
 import org.apereo.cas.configuration.CasConfigurationProperties;
 import org.apereo.inspektr.audit.AuditTrailManager;
 import org.esupportail.cas.audit.AgimusServicesAuditTrailManager;
+import org.esupportail.cas.util.CasAgimusServicesAuditLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,12 @@ public class CasAgimusAuditConfiguration {
     @Autowired
     private CasConfigurationProperties casProperties;
 
+    @Bean
+    public CasAgimusServicesAuditLogger agimusServicesAuditLogger() {
+    	LOGGER.debug("CasAgimusAuditConfiguration::agimusServicesAuditLogger : Create bean agimusServicesAuditLogger");    	    
+        return new CasAgimusServicesAuditLogger();
+    }
+    
     @Bean
     public AuditTrailManager agimusServicesAuditTrailManager() {
         LOGGER.debug("CasAgimusAuditConfiguration::agimusServicesAuditTrailManager constructor");

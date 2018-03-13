@@ -58,7 +58,7 @@ Ajouter le logger dans cas-overlay-template/etc/cas/config/log4j2.xml
     </Appenders>
     <Loggers>
 		...
-		<AsyncLogger name="org.esupportail.cas.audit" level="info" additivity="false" includeLocation="true">
+		<AsyncLogger name="org.esupportail.cas.util.CasAgimusServicesAuditLogger" level="info" additivity="false" includeLocation="true">
 			<AppenderRef ref="casStatsAgimus"/>
 		</AsyncLogger>
 		...
