@@ -43,14 +43,16 @@ public class AgimusServicesAuditTrailManager implements AuditTrailManager {
         	    HttpServletRequest req = sra.getRequest();
         	    String useragent = req.getHeader("User-Agent");
         	    
-				String outStr = "";
-				outStr+= "["+ audit.getWhenActionWasPerformed() + "] ";
-				outStr+= "[IP:"+ audit.getClientIpAddress() + "] ";
-				outStr+= "[TICKET:"+ ticket + "] ";
-				outStr+= "[SERVICE:"+ service + "] ";
-				outStr+= "[USER-AGENT:" + useragent +"]";
 				
-        		LOGGER.info(outStr);
+				if(ticket.startsWith("ST-")) {
+					String outStr = "";
+					outStr+= "["+ audit.getWhenActionWasPerformed() + "] ";
+					outStr+= "[IP:"+ audit.getClientIpAddress() + "] ";
+					outStr+= "[TICKET:"+ ticket + "] ";
+					outStr+= "[SERVICE:"+ service + "] ";
+					outStr+= "[USER-AGENT:" + useragent +"]";
+					LOGGER.info(outStr);
+				}        		
     		}
     	}
     }
