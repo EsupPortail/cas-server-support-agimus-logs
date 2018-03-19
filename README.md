@@ -1,12 +1,25 @@
 # cas-server-support-agimus-logs
 ![Esup Portail](https://www.esup-portail.org/sites/esup-portail.org/files/logo-esup%2Baccroche_2.png "Esup Portail")
 
-cas-server-support-agimus-logs est une extension du serveur CAS pour produire un fichier de log contenant un ligne pour chaque délivrance de ticket CAS pour un service à un utilisateur
+cas-server-support-agimus-logs est une extension du serveur CAS pour produire 2 fichiers de log.
+
+-------------------------
+
+Le premier "serviceStats.log" contenant un ligne pour chaque délivrance de ticket CAS pour un service à un utilisateur
 
 Le fichier produit est de la forme : 
 
-> [DATE] [IP:XXX.XXX.XXX.XXX] [TICKET:ST-X-YYYYYYYYYYYYY] [SERVICE:http://service.univ.fr] [USER-AGENT:Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:58.0) Gecko/20100101 Firefox/58.0]
+> [DATE] [ID:userId][IP:XXX.XXX.XXX.XXX] [TICKET:ST-X-YYYYYYYYYYYYY] [SERVICE:http://service.univ.fr] [USER-AGENT:Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:58.0) Gecko/20100101 Firefox/58.0]
 
+-------------------------
+
+Le second "auth.log" contenant un ligne pour chaque authentification d'un utilisateur
+
+Le fichier produit est de la forme : 
+
+> [DATE] - [AUTHENTICATION_SUCCESS|AUTHENTICATION_FAILED] for '[userId]' from 'XXX.XXX.XXX.XXX'
+
+-------------------------
 
 ## Compatibilité
 
@@ -49,10 +62,19 @@ Ajouter le logger dans cas-overlay-template/etc/cas/config/log4j2.xml
 				<Pattern>%m%n</Pattern>
 			</PatternLayout>
 		</File>
+		
+		<File name="authlogfile" fileName="${sys:cas.log.dir}/auth.log" append="true" immediateFlush="true">
+			<PatternLayout>
+				<Pattern>%m%n</Pattern>
+			</PatternLayout>
+		</File>
     	...
     	...
     	<CasAppender name="casStatsAgimus">
 			<AppenderRef ref="agimusStatslogfile" />
+		</CasAppender>
+		<CasAppender name="casAuthlogfile">
+			<AppenderRef ref="authlogfile" />
 		</CasAppender>
     	...
     </Appenders>
@@ -61,6 +83,10 @@ Ajouter le logger dans cas-overlay-template/etc/cas/config/log4j2.xml
 		<AsyncLogger name="org.esupportail.cas.util.CasAgimusServicesAuditLogger" level="info" additivity="false" includeLocation="true">
 			<AppenderRef ref="casStatsAgimus"/>
 		</AsyncLogger>
+		
+		<AsyncLogger name="org.esupportail.cas.util.CasAgimusAuthAuditLogger" level="info" additivity="false" includeLocation="true">
+			<AppenderRef ref="casAuthlogfile"/>
+		</AsyncLogger>		
 		...
     </Loggers>
     

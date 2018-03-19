@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apereo.inspektr.audit.AuditActionContext;
 import org.apereo.inspektr.audit.AuditTrailManager;
+import org.esupportail.cas.util.CasAgimusAuthAuditLogger;
 import org.esupportail.cas.util.CasAgimusServicesAuditLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,11 @@ public class AgimusServicesAuditTrailManager implements AuditTrailManager {
     @Qualifier("agimusServicesAuditLogger")
     private CasAgimusServicesAuditLogger agimusServicesAuditLogger;   
     
+    @Autowired
+    @Qualifier("agimusAuthAuditLogger")
+    private CasAgimusAuthAuditLogger agimusAuthAuditLogger;   
+    
+    
     public AgimusServicesAuditTrailManager() {
     }
 
@@ -53,6 +59,7 @@ public class AgimusServicesAuditTrailManager implements AuditTrailManager {
 				if(ticket.startsWith("ST-")) {
 					String outStr = "";
 					outStr+= "["+ audit.getWhenActionWasPerformed() + "] ";
+					outStr+= "[ID:"+ audit.getPrincipal() + "] ";
 					outStr+= "[IP:"+ audit.getClientIpAddress() + "] ";
 					outStr+= "[TICKET:"+ ticket + "] ";
 					outStr+= "[SERVICE:"+ service + "] ";
@@ -61,6 +68,9 @@ public class AgimusServicesAuditTrailManager implements AuditTrailManager {
 				}        		
     		}
     	}
+		else if(("AUTHENTICATION_SUCCESS").equals(audit.getActionPerformed()) || ("AUTHENTICATION_FAILED").equals(audit.getActionPerformed())) {			
+			agimusAuthAuditLogger.log(audit.getWhenActionWasPerformed() + " - " + audit.getActionPerformed() + " for '"+audit.getPrincipal() + "' from '" + audit.getClientIpAddress() + "'");
+		}   	
     }
 	
 	@Override
