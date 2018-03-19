@@ -59,8 +59,8 @@ public class AgimusServicesAuditTrailManager implements AuditTrailManager {
 				if(ticket.startsWith("ST-")) {
 					String outStr = "";
 					outStr+= "["+ audit.getWhenActionWasPerformed() + "] ";
-					outStr+= "[ID:"+ audit.getPrincipal() + "] ";
 					outStr+= "[IP:"+ audit.getClientIpAddress() + "] ";
+					outStr+= "[ID:"+ audit.getPrincipal() + "] ";
 					outStr+= "[TICKET:"+ ticket + "] ";
 					outStr+= "[SERVICE:"+ service + "] ";
 					outStr+= "[USER-AGENT:" + useragent +"]";
@@ -69,13 +69,13 @@ public class AgimusServicesAuditTrailManager implements AuditTrailManager {
     		}
     	}
 		else if(("AUTHENTICATION_SUCCESS").equals(audit.getActionPerformed()) || ("AUTHENTICATION_FAILED").equals(audit.getActionPerformed())) {			
-			agimusAuthAuditLogger.log(audit.getWhenActionWasPerformed() + " - " + audit.getActionPerformed() + " for '"+audit.getPrincipal() + "' from '" + audit.getClientIpAddress() + "'");
+			agimusAuthAuditLogger.log(audit.getWhenActionWasPerformed() + " - " + audit.getActionPerformed() + " for '[username:"+audit.getPrincipal() + "]' from '" + audit.getClientIpAddress() + "'");
 		}   	
     }
 	
 	@Override
     public Set<AuditActionContext> getAuditRecordsSince(final LocalDate localDate) {
-        LOGGER.info("AgimusAuditTrailManager::getAuditRecordsSince");
+        LOGGER.debug("AgimusAuditTrailManager::getAuditRecordsSince");
 				
         return new HashSet<>(0);
     }

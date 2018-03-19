@@ -9,7 +9,7 @@ Le premier "serviceStats.log" contenant un ligne pour chaque délivrance de ticke
 
 Le fichier produit est de la forme : 
 
-> [DATE] [ID:userId][IP:XXX.XXX.XXX.XXX] [TICKET:ST-X-YYYYYYYYYYYYY] [SERVICE:http://service.univ.fr] [USER-AGENT:Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:58.0) Gecko/20100101 Firefox/58.0]
+> [DATE] [IP:XXX.XXX.XXX.XXX] [ID:userId] [TICKET:ST-X-YYYYYYYYYYYYY] [SERVICE:http://service.univ.fr] [USER-AGENT:Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:58.0) Gecko/20100101 Firefox/58.0]
 
 -------------------------
 
@@ -17,7 +17,7 @@ Le second "auth.log" contenant un ligne pour chaque authentification d'un utilis
 
 Le fichier produit est de la forme : 
 
-> [DATE] - [AUTHENTICATION_SUCCESS|AUTHENTICATION_FAILED] for '[userId]' from 'XXX.XXX.XXX.XXX'
+> DATE - AUTHENTICATION_SUCCESS|AUTHENTICATION_FAILED for '[username: userId]' from 'XXX.XXX.XXX.XXX'
 
 -------------------------
 
