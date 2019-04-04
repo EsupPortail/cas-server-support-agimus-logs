@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.esupportail.cas</groupId>
   <artifactId>cas-server-support-agimus-logs</artifactId>
-  <version>5.2.2</version>
+  <version>6.0.2</version>
   <packaging>jar</packaging>
   <build>
     <sourceDirectory>src</sourceDirectory>
