@@ -79,4 +79,8 @@ public class AgimusServicesAuditTrailManager implements AuditTrailManager {
 				
         return new HashSet<>(0);
     }
+
+	@Override
+	public void removeAll() {
+	}
 }
