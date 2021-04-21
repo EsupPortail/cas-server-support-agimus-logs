@@ -5,7 +5,7 @@ cas-server-support-agimus-logs est une extension du serveur CAS pour produire 2 
 
 -------------------------
 
-Le premier "serviceStats.log" contenant un ligne pour chaque dÈlivrance de ticket CAS pour un service ‡ un utilisateur
+Le premier "serviceStats.log" contenant un ligne pour chaque d√©livrance de ticket CAS pour un service √† un utilisateur
 
 Le fichier produit est de la forme : 
 
@@ -21,11 +21,11 @@ Le fichier produit est de la forme :
 
 -------------------------
 
-## CompatibilitÈ
+## Compatibilit√©
 
-Tester sur 
+Test√© sur 
 
- - CAS V5.2.2
+ - CAS V6.3.3
 
 
 ## Installation
@@ -40,18 +40,14 @@ Tester sur
 
 Ceci va avoir pour effet de compiler le projet et de le mettre dans votre repository local maven.
 
-## IntÈgration dans CAS
+## Int√©gration dans CAS
 
-Ajouter la dÈpendance dans pom.xml de cas-overlay-template (https://github.com/apereo/cas-overlay-template) : 
+Ajouter la d√©pendance dans build.gradle de cas-overlay-template (https://github.com/apereo/cas-overlay-template) : 
 
-    <dependencies>
+    dependencies {
       ...
-    	<dependency>
-    		<groupId>org.esupportail.cas</groupId>
-    		<artifactId>cas-server-support-agimus-logs</artifactId>
-    		<version>${cas.version}</version>
-    	</dependency>
-	</dependencies>
+      implementation "org.esupportail.cas:cas-server-support-agimus-logs:${casServerVersion}"
+    }
 
 Ajouter le logger dans cas-overlay-template/etc/cas/config/log4j2.xml
 
@@ -90,4 +86,4 @@ Ajouter le logger dans cas-overlay-template/etc/cas/config/log4j2.xml
 		...
     </Loggers>
     
-Il suffit ensuite de lancer la compilation est le dÈploiement de CAS.
+Il suffit ensuite de lancer la compilation et le d√©ploiement de CAS.
