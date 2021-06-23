@@ -24,12 +24,14 @@
         <dependency>
 			<groupId>org.apereo.cas</groupId>
 			<artifactId>cas-server-core-audit</artifactId>
-			<version>${project.version}</version>
+			<version>${cas.version}</version>
+			<scope>provided</scope>			
 		</dependency>
 		<dependency>
 			<groupId>org.apereo.cas</groupId>
 			<artifactId>cas-server-core-configuration</artifactId>
-			<version>${project.version}</version>
+			<version>${cas.version}</version>
+			<scope>provided</scope>			
 		</dependency>
 		<dependency>
 		    <groupId>javax.servlet</groupId>
@@ -41,7 +43,7 @@
     
     <properties>
         <springboot.version>1.5.8.RELEASE</springboot.version>
-        
+        <cas.version>6.4.0-RC4</cas.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
