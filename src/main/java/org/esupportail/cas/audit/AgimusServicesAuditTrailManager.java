@@ -1,7 +1,9 @@
 package org.esupportail.cas.audit;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,12 +46,14 @@ public class AgimusServicesAuditTrailManager implements AuditTrailManager {
     public void record(final AuditActionContext audit) {		
 		LOGGER.debug("AgimusAuditTrailManager::record receive record type : [" + audit.getActionPerformed() + "]");
 		if(("SERVICE_TICKET_CREATED").equals(audit.getActionPerformed())) {    	
+			
     		String resourceOperatedUpon = audit.getResourceOperatedUpon();
-    		if (resourceOperatedUpon.contains(" for ")) {
-    			String parts[] = audit.getResourceOperatedUpon().split(" for ");
-    			
-    			String ticket = parts[0];    		
-        		String service = parts[1];
+    		Map<String,String> resourceOperatedUponMap = splitIntoMap(resourceOperatedUpon);
+    		
+    		if (resourceOperatedUponMap.containsKey("service")) {
+    	
+    			String ticket = resourceOperatedUponMap.get("return");  		
+        		String service = resourceOperatedUponMap.get("service");  	
         		
         		ServletRequestAttributes sra = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
         	    HttpServletRequest req = sra.getRequest();
@@ -72,6 +76,19 @@ public class AgimusServicesAuditTrailManager implements AuditTrailManager {
 			agimusAuthAuditLogger.log(audit.getWhenActionWasPerformed() + " - " + audit.getActionPerformed() + " for '[username:"+audit.getPrincipal() + "]' from '" + audit.getClientIpAddress() + "'");
 		}   	
     }
+    
+    protected  Map<String,String> splitIntoMap(String value) {
+	    value = value.substring(1, value.length()-1);           
+	    String[] keyValuePairs = value.split(",");              
+	    Map<String,String> map = new HashMap<>();               	
+	    for(String pair : keyValuePairs)                       
+	    {
+	        String[] entry = pair.split("=");                   
+	        map.put(entry[0].trim(), entry[1].trim());          
+	    }
+	    return map;
+    }
+    
 	
 	@Override
     public Set<AuditActionContext> getAuditRecordsSince(final LocalDate localDate) {

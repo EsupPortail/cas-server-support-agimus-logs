@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.esupportail.cas</groupId>
   <artifactId>cas-server-support-agimus-logs</artifactId>
-  <version>6.3.3</version>
+  <version>6.4.0-RC4</version>
   <packaging>jar</packaging>
   <build>
     <sourceDirectory>src</sourceDirectory>
@@ -24,12 +24,14 @@
         <dependency>
 			<groupId>org.apereo.cas</groupId>
 			<artifactId>cas-server-core-audit</artifactId>
-			<version>${project.version}</version>
+			<version>${cas.version}</version>
+			<scope>provided</scope>			
 		</dependency>
 		<dependency>
 			<groupId>org.apereo.cas</groupId>
 			<artifactId>cas-server-core-configuration</artifactId>
-			<version>${project.version}</version>
+			<version>${cas.version}</version>
+			<scope>provided</scope>			
 		</dependency>
 		<dependency>
 		    <groupId>javax.servlet</groupId>
@@ -41,9 +43,9 @@
     
     <properties>
         <springboot.version>1.5.8.RELEASE</springboot.version>
-        
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <cas.version>6.4.0-RC4</cas.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     
