@@ -1,6 +1,7 @@
 package org.esupportail.cas.audit;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -51,8 +52,19 @@ public class AgimusServicesAuditTrailManager implements AuditTrailManager {
     		Map<String,String> resourceOperatedUponMap = splitIntoMap(resourceOperatedUpon);
     		
     		if (resourceOperatedUponMap.containsKey("service")) {
-    	
-    			String ticket = resourceOperatedUponMap.get("return");  		
+
+				String ticket = "";
+				/* key depends on CAS version :
+				 - cas<6.6.10 -> return
+				 - 6.6.9<cas<7.x -> ticket
+				 - 7.x<cas -> ticketId
+				 */
+				for(String ticketKeyFromCas: Arrays.asList("return", "ticket", "ticketId")) {
+					if(resourceOperatedUponMap.containsKey(ticketKeyFromCas)) {
+						ticket = resourceOperatedUponMap.get(ticketKeyFromCas);
+						break;
+					}
+				}
         		String service = resourceOperatedUponMap.get("service");  	
         		
         		ServletRequestAttributes sra = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
