@@ -1,5 +1,5 @@
 # cas-server-support-agimus-logs
-![Esup Portail](https://www.esup-portail.org/sites/esup-portail.org/files/logo-esup%2Baccroche_2.png "Esup Portail")
+![Esup Portail](https://www.esup-portail.org/sites/default/files/logo-esupportail_1.png "Esup Portail")
 
 cas-server-support-agimus-logs est une extension du serveur CAS pour produire 2 fichiers de log.
 
