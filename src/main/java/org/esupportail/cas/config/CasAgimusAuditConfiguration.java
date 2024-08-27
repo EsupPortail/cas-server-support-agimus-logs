@@ -20,7 +20,7 @@ import org.springframework.context.annotation.ScopedProxyMode;
  * @author Julien Marchal
  * @since 5.2.0
  */
-@Configuration("casAgimusLogsAuditConfiguration")
+@Configuration("casAgimusAuditConfiguration")
 public class CasAgimusAuditConfiguration {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CasAgimusAuditConfiguration.class);
 
