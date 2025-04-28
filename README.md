@@ -21,11 +21,20 @@ Le fichier produit est de la forme :
 
 -------------------------
 
+Le troisième "cas-audit.log" contenant une ligne pour chaque action faite pendant l'authentification à un service
+
+Le fichier produit est de la forme :
+
+> DATE|userID|{service=http://service.univ.fr, ticketId=ST-X-YYYYYYYYYYYYYYYYYYYYYYYYYYY}|SERVICE_TICKET_CREATED|XXX.XXX.XXX.XXX|XXX.XXX.XXX.XXX|
+> DATE|userID|{ticket=ST-X-YYYYYYYYYYYYYYYYYYYYYYYYYYY, service=http://service.univ.fr}|SERVICE_TICKET_VALIDATE_SUCCESS|XXX.XXX.XXX.XXX|XXX.XXX.XXX.XXX|
+
+-------------------------
+
 ## Compatibilité
 
 Testé sur 
 
- - CAS V7.0.6
+ - CAS V7.1.6
 
 
 ## Installation
@@ -52,38 +61,81 @@ Ajouter la dépendance dans build.gradle de cas-overlay-template (https://github
 Ajouter le logger dans cas-overlay-template/etc/cas/config/log4j2.xml
 
     <Appenders>
-		...
-		<File name="agimusStatslogfile" fileName="${sys:cas.log.dir}/serviceStats.log" append="true" immediateFlush="true">
-			<PatternLayout>
-				<Pattern>%m%n</Pattern>
-			</PatternLayout>
-		</File>
-		
-		<File name="authlogfile" fileName="${sys:cas.log.dir}/auth.log" append="true" immediateFlush="true">
-			<PatternLayout>
-				<Pattern>%m%n</Pattern>
-			</PatternLayout>
-		</File>
-    	...
-    	...
-    	<CasAppender name="casStatsAgimus">
-			<AppenderRef ref="agimusStatslogfile" />
-		</CasAppender>
-		<CasAppender name="casAuthlogfile">
-			<AppenderRef ref="authlogfile" />
-		</CasAppender>
-    	...
+        ...
+        <RollingFile name="agimusStatslogfile" fileName="${baseDir}/serviceStats.log" append="true"
+                     filePattern="${baseDir}/serviceStats-%d{yyyy-MM-dd}.log.gz"
+                     immediateFlush="false">
+                <PatternLayout pattern="%m%n" />
+                <Policies>
+                        <!-- Rotation quotidienne -->
+                        <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                </Policies>
+                <DefaultRolloverStrategy max="5" compressionLevel="9">
+                        <Delete basePath="${baseDir}" maxDepth="2">
+                                <IfFileName glob="*/*.log.gz" />
+                                <IfLastModified age="7d" />
+                        </Delete>
+                </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <RollingFile name="authlogfile" fileName="${baseDir}/auth.log" append="true"
+                     filePattern="${baseDir}/auth-%d{yyyy-MM-dd}.log.gz"
+                     immediateFlush="false">
+                <PatternLayout pattern="%m%n" />
+                <Policies>
+                        <!-- Rotation quotidienne -->
+                        <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                </Policies>
+                <DefaultRolloverStrategy max="5" compressionLevel="9">
+                        <Delete basePath="${baseDir}" maxDepth="2">
+                                <IfFileName glob="*/*.log.gz" />
+                                <IfLastModified age="7d" />
+                        </Delete>
+                </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <RollingFile name="auditlogfile" fileName="${baseDir}/cas-audit.log" append="true"
+                 filePattern="${baseDir}/cas-audit-%d{yyyy-MM-dd}.log.gz"
+                 immediateFlush="false">
+            <PatternLayout pattern="|%d{yyyy-MM-dd HH:mm:ss,Europe/Paris}|%m%n" />
+            <Policies>
+                <!-- Rotation quotidienne -->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5" compressionLevel="9">
+                <Delete basePath="${baseDir}" maxDepth="2">
+                    <IfFileName glob="*/*.log.gz" />
+                    <IfLastModified age="7d" />
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+        ...
+        ...
+        <CasAppender name="casStatsAgimus">
+            <AppenderRef ref="agimusStatslogfile" />
+        </CasAppender>
+        <CasAppender name="casAuthlogfile">
+            <AppenderRef ref="authlogfile" />
+        </CasAppender>
+        <CasAppender name="casAudit">
+            <AppenderRef ref="auditlogfile" />
+        </CasAppender>
+        ...
     </Appenders>
     <Loggers>
-		...
-		<AsyncLogger name="org.esupportail.cas.util.CasAgimusServicesAuditLogger" level="info" additivity="false" includeLocation="true">
-			<AppenderRef ref="casStatsAgimus"/>
-		</AsyncLogger>
-		
-		<AsyncLogger name="org.esupportail.cas.util.CasAgimusAuthAuditLogger" level="info" additivity="false" includeLocation="true">
-			<AppenderRef ref="casAuthlogfile"/>
-		</AsyncLogger>		
-		...
+        ...
+        <Logger name="org.esupportail.cas.util.CasAgimusServicesAuditLogger" level="info" additivity="false" includeLocation="true">
+                <AppenderRef ref="casStatsAgimus"/>
+        </Logger>
+
+        <Logger name="org.esupportail.cas.util.CasAgimusAuthAuditLogger" level="info" additivity="false" includeLocation="true">
+                <AppenderRef ref="casAuthlogfile"/>
+        </Logger>
+
+        <Logger name="org.apereo.inspektr" additivity="false" level="info">
+            <AppenderRef ref="casAudit"/>
+        </Logger>
+        ...
     </Loggers>
     
 Il suffit ensuite de lancer la compilation et le déploiement de CAS.

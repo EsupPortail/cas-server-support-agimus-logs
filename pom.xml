@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.esupportail.cas</groupId>
   <artifactId>cas-server-support-agimus-logs</artifactId>
-  <version>7.0.6</version>
+  <version>7.1.6</version>
   <packaging>jar</packaging>
   <build>
     <sourceDirectory>src</sourceDirectory>
@@ -36,7 +36,7 @@
     </dependencies>
     
     <properties>
-        <cas.version>7.0.6</cas.version>
+        <cas.version>7.1.6</cas.version>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
