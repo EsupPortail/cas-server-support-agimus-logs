@@ -1,6 +1,7 @@
 package org.esupportail.cas.audit;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.apereo.cas.util.DateTimeUtils;
 import org.apereo.inspektr.audit.AuditActionContext;
 import org.apereo.inspektr.audit.AuditTrailManager;
 import org.esupportail.cas.util.CasAgimusAuthAuditLogger;
@@ -73,7 +74,7 @@ public class AgimusServicesAuditTrailManager implements AuditTrailManager {
 				
 				if(ticket.startsWith("ST-")) {
 					String outStr = String.format("[%s] [IP:%s] [ID:%s] [TICKET:%s] [SERVICE:%s] [USER-AGENT:%s]",
-							audit.getWhenActionWasPerformed(),
+							DateTimeUtils.dateOf(audit.getWhenActionWasPerformed()),
 							audit.getClientInfo().getClientIpAddress(),
 							audit.getPrincipal(),
 							ticket,
@@ -86,7 +87,7 @@ public class AgimusServicesAuditTrailManager implements AuditTrailManager {
 		else if(("AUTHENTICATION_SUCCESS").equals(audit.getActionPerformed()) || ("AUTHENTICATION_FAILED").equals(audit.getActionPerformed())) {			
 			agimusAuthAuditLogger.log(
 					String.format("%s - %s for '[username:%s]' from '%s'",
-							audit.getWhenActionWasPerformed(),
+							DateTimeUtils.dateOf(audit.getWhenActionWasPerformed()),
 							audit.getActionPerformed(),
 							audit.getPrincipal(),
 							audit.getClientInfo().getClientIpAddress()));
